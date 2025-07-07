@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-clifford: #da373d;
+      }
+    </style>
+</head>
+<body>
+    <div class="max-v-7xl mx-auto">
+        {% include 'navbar.html' %}
+
+        {% if messages %}
+			<div class="space-y-3 px-4 py-2">
+				{% for message in messages %}
+					<div 
+						x-data="{ show: true }"
+						x-init="setTimeout(() => show = false, 4000)" 
+						x-show="show"
+						x-transition
+						class="rounded-lg p-4 text-sm font-medium
+								{% if message.tags == 'success' %}
+								bg-green-100 text-green-800
+								{% elif message.tags == 'error' %}
+								bg-red-100 text-red-800
+								{% elif message.tags == 'warning' %}
+								bg-yellow-100 text-yellow-800
+								{% elif message.tags == 'info' %}
+								bg-blue-100 text-blue-800
+								{% else %}
+								bg-gray-100 text-gray-800
+								{% endif %}">
+						{{ message }}
+                	</div>
+              	{% endfor %}
+            </div>
+        {% endif %}
+
+
+        {% block body %}
+        {% endblock body %}
+
+        {% include "scripts.html" %}
+    </div>
+</body>
+</html> 
